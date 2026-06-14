@@ -297,3 +297,151 @@
   padding: 10px 0 10px 0;
   margin: 0;
 }
+
+/* ============================================================
+   ORBI-16: Forest green + chartreuse color scheme
+   ============================================================ */
+
+/* --- Navbar: off-white background with dark text --- */
+.navbar-dropdown,
+.navbar,
+.navbar-dropdown.bg-color.transparent.opened,
+.soames-menu .navbar,
+.soames-menu .navbar-dropdown.bg-color.transparent.opened {
+  background: #f0efea !important;
+}
+
+.navbar-dropdown .navbar-caption,
+.navbar-dropdown .navbar-caption:hover {
+  color: #232323 !important;
+}
+
+.soames-menu .nav-link,
+.soames-menu .nav-link:hover,
+.soames-menu .dropdown-item {
+  color: #232323 !important;
+}
+
+/* Hamburger icon: dark on off-white navbar */
+.navbar-dropdown .hamburger-icon {
+  -webkit-box-shadow: 0 -6px 0 1px #232323, 0 0 0 1px #232323, 0 6px 0 1px #232323;
+  -moz-box-shadow: 0 -6px 0 1px #232323, 0 0 0 1px #232323, 0 6px 0 1px #232323;
+  box-shadow: 0 -6px 0 1px #232323, 0 0 0 1px #232323, 0 6px 0 1px #232323;
+}
+
+/* Mobile slide-out menu: forest green */
+.nav-dropdown-sm.collapsing,
+.nav-dropdown-sm.collapse.in {
+  background: #1f4d2a !important;
+}
+
+.nav-dropdown-sm .link:hover,
+.nav-dropdown-sm .link:focus,
+.nav-dropdown-sm .dropdown-item:hover,
+.nav-dropdown-sm .dropdown-item:focus {
+  color: #e8f5c8 !important;
+}
+
+/* Desktop dropdown menus: forest green */
+.soames-menu .dropdown .dropdown-menu {
+  background: #1f4d2a !important;
+}
+
+/* --- Primary color: forest green --- */
+.bg-primary {
+  background-color: #1f4d2a !important;
+}
+
+a,
+a:hover {
+  color: #1f4d2a;
+}
+
+.text-primary {
+  color: #1f4d2a !important;
+}
+
+a.text-primary:hover,
+a.text-primary:focus {
+  color: #163d20 !important;
+}
+
+blockquote {
+  border-color: #1f4d2a;
+}
+
+.btn-primary,
+.btn-primary:active {
+  background-color: #1f4d2a !important;
+  border-color: #1f4d2a !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary.focus,
+.btn-primary.active,
+.btn-primary.disabled,
+.btn-primary:disabled {
+  background-color: #163d20 !important;
+  border-color: #163d20 !important;
+}
+
+.btn-primary-outline,
+.btn-primary-outline:active {
+  border-color: #1f4d2a;
+  color: #1f4d2a;
+}
+
+.btn-primary-outline:hover,
+.btn-primary-outline:focus,
+.btn-primary-outline.focus,
+.btn-primary-outline.active,
+.btn-primary-outline.disabled,
+.btn-primary-outline:disabled {
+  background-color: #1f4d2a !important;
+  border-color: #1f4d2a !important;
+}
+
+.soames-gallery-filter li.active .btn {
+  background-color: #1f4d2a;
+  border-color: #1f4d2a;
+}
+
+.soames-footer-content li::before,
+.soames-footer .soames-contacts li::before {
+  background: #1f4d2a;
+}
+
+.soames-footer-content li a:hover,
+.soames-footer .soames-contacts li a:hover {
+  color: #1f4d2a;
+}
+
+/* --- Title bar: chartreuse background with dark green text --- */
+.soames-title-bar {
+  background-color: #c8e83c !important;
+}
+
+.soames-title-bar h2 {
+  color: #1f4d2a;
+}
+
+.soames-title-bar .soames-section-subtitle {
+  color: #1f4d2a !important;
+}
+
+/* --- Video section: forest green gradient --- */
+.soames-video-container {
+  background: #1f4d2a;
+  background: linear-gradient(0deg, #1f4d2a, #163d20);
+}
+
+/* --- Footer: dark green instead of near-black --- */
+.soames-footer {
+  background-color: #1a3d21 !important;
+}
+
+.soames-footer a,
+.soames-footer a:hover {
+  color: #c8e83c;
+}
