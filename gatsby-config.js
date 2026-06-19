@@ -28,6 +28,9 @@ module.exports = {
         theme_color: `#663399`,
         display: `minimal-ui`,
         icon: `content/assets/gatsby-icon.png`,
+        // ORBI-18: don't inject the default-icon favicon link; the browser
+        // favicon comes from WP Site Assets (soamesSettings.faviconUrl).
+        include_favicon: false,
       },
     },
     {
