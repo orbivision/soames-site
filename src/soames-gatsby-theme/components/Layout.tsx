@@ -24,6 +24,7 @@ const Layout: React.FC<LayoutProps> = ({ children, isHomePage = false }) => {
       soamesSettings {
         faviconUrl
         contactBlurb
+        companyName
       }
     }
   `);
@@ -31,6 +32,7 @@ const Layout: React.FC<LayoutProps> = ({ children, isHomePage = false }) => {
   const siteTitle = data.wp?.generalSettings?.title || 'Site Title';
   const faviconUrl = data.soamesSettings?.faviconUrl ?? null;
   const contactBlurb = data.soamesSettings?.contactBlurb ?? null;
+  const companyName = data.soamesSettings?.companyName ?? null;
 
   return (
     <div className="global-wrapper" data-is-root-path={isHomePage}>
@@ -48,7 +50,7 @@ const Layout: React.FC<LayoutProps> = ({ children, isHomePage = false }) => {
       <Header title={siteTitle} isHomePage={isHomePage} />
       <main>
         {children}
-        <Footer title={siteTitle} contactBlurb={contactBlurb} />
+        <Footer title={siteTitle} contactBlurb={contactBlurb} companyName={companyName} />
       </main>
     </div>
   );
