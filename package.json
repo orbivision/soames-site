@@ -6,7 +6,11 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "test:visual": "playwright test",
+    "test:visual:update": "playwright test --update-snapshots",
+    "test:visual:docker": "docker run --rm -v \"$PWD\":/work -v /work/node_modules -w /work -e CI=1 mcr.microsoft.com/playwright:v1.61.1-noble bash -lc 'npm ci && npm run test:visual'",
+    "test:visual:docker:update": "docker run --rm -v \"$PWD\":/work -v /work/node_modules -w /work -e CI=1 mcr.microsoft.com/playwright:v1.61.1-noble bash -lc 'npm ci && npm run test:visual:update'"
   },
   "dependencies": {
     "@astrojs/react": "^4.2.0",
@@ -17,6 +21,7 @@
     "soames-astro-theme": "^0.1.11"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1"
   }
