@@ -1,0 +1,31 @@
+name: Visual regression
+
+# ORBI-47: runs the Playwright chrome snapshots on PRs, inside the SAME pinned
+# Playwright image the baselines were rendered in (so font rendering matches).
+# Independent of Netlify — a failure blocks PR merge (once set as a required
+# check in branch protection), not the deploy from main.
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  visual:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.61.1-noble
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps
+        run: npm ci
+      - name: Run visual tests
+        run: npm run test:visual
+      - name: Upload report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14

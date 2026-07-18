@@ -6,3 +6,7 @@ dist/
 # old gatsby artifacts
 .cache/
 public/
+# Playwright (ORBI-47) — keep __screenshots__ baselines, ignore run output
+test-results/
+playwright-report/
+/playwright/.cache/
