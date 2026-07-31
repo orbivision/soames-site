@@ -1,5 +1,8 @@
 # Visual regression tests (ORBI-47)
 
+> **This is the pixel suite.** Functional tests live in `../e2e/` (ORBI-54) and play by
+> different rules — no baselines, no container needed. See `../README.md` for the split.
+
 Playwright screenshot tests over the **built** Astro site. They guard the site's
 chrome (header/logo, footer) against unintended visual changes — e.g. a theme bump
 that shifts the header logo at desktop or mobile widths.
