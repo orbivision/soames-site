@@ -1,0 +1,49 @@
+name: E2E
+
+# ORBI-54: functional end-to-end tests for the built site — behaviour, not pixels.
+#
+# Separate from visual.yml on purpose. These take no screenshots, so they don't need
+# the pinned Playwright container that the baselines depend on; a plain runner with
+# Chromium is enough and is meaningfully faster. Keeping the workflows apart also
+# means this job can never disturb the required `visual` check.
+#
+# Starts life as a NON-required check: the build fetches live WordPress content, so a
+# WP outage can turn it red for reasons unrelated to the PR. Promote it to required
+# once it's proven stable over a few PRs.
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  e2e:
+    name: e2e
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      # The config's webServer builds the site (fetching live WordPress) and serves
+      # it before the tests run.
+      - name: Run e2e tests
+        run: npm run test:e2e
+
+      - name: Upload report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14
