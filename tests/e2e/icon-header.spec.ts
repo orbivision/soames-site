@@ -93,6 +93,31 @@ test("the Icon Header band spans the full viewport", async ({ page }) => {
   expect(boxed, `${path}: Icon Header is inside a .soames-core-block`).toBe(false);
 });
 
+test("the Icon Header's three lines stack tightly", async ({ page }) => {
+  const path = await pageWithIconHeader(page);
+
+  // `vendor/wordpress-blocks.css` sets a GLOBAL `h1..h6 { margin-top: 3rem; margin-bottom:
+  // 1.5rem }`. The hand-written markup this block replaced never showed it, because a
+  // `.contentN` class zeroed those margins per-site; dropping `.contentN` dropped the
+  // suppression too, and the three lines drifted ~48px apart until the theme restated it.
+  // Asserting the margins directly rather than a pixel gap, so this stays readable and
+  // doesn't move when the font stack or copy changes.
+  const margins = await page.evaluate(() => {
+    const title = document.querySelector(".soames-section-subhead .title")!;
+    return ["h2", "h3", "h5"].map((tag) => {
+      const el = title.querySelector(tag);
+      if (!el) return `${tag}: missing`;
+      const cs = getComputedStyle(el);
+      return `${tag}: ${cs.marginTop}/${cs.marginBottom}`;
+    });
+  });
+
+  expect(
+    margins,
+    `Icon Header headings on ${path} have inherited the global h1..h6 margins — the three lines will be spread apart`
+  ).toEqual(["h2: 0px/0px", "h3: 0px/0px", "h5: 0px/0px"]);
+});
+
 test("the Icon Header icon is localized, not served from WordPress", async ({ page }) => {
   const path = await pageWithIconHeader(page);
   const src = await page
