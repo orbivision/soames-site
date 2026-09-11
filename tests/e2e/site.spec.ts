@@ -73,18 +73,23 @@ test("social/SEO meta tags are populated", async ({ page }) => {
   }
 });
 
-// Two real defects this suite surfaced on its first run, both in the theme's SEO
-// block rather than in the site — so they're recorded here rather than fixed:
+// Both defects this test was written for were FIXED in ORBI-68 (theme 0.1.25), so
+// it is a live assertion now rather than a `fixme`:
 //
-//   1. `/` and every blog post emit RAW HTML inside the description, e.g.
+//   1. `/` and every blog post emitted RAW HTML inside the description, e.g.
 //      content="<p>Soames connects WordPress…". WP excerpts are HTML and nothing
-//      strips the tags.
-//   2. `/blog/` (the WP "Posts page") emits an EMPTY description attribute.
+//      stripped the tags.
+//   2. `/blog/` (the WP "Posts page") emitted an EMPTY description attribute — the
+//      route passed no description at all and the WP tagline is blank.
 //
-// `/docs/` is clean only because its excerpt happens to be plain text. Left as
-// `fixme` so the expectation is written down and turns green the moment it's fixed,
-// without the suite crying wolf in the meantime.
-test.fixme("descriptions are non-empty and contain no HTML", async ({ page }) => {
+// The theme now strips tags, decodes entities and caps at 160 chars centrally in
+// Base.astro, so this holds for every route rather than the three probed here.
+//
+// If this ever fails by TIMEOUT rather than assertion, the meta tag is absent, not
+// empty: `getAttribute` waits for an element that never appears. That means the
+// theme's description fallback chain resolved to "" — which it is designed never
+// to do, since its last resort is derived from the required `pageTitle` prop.
+test("descriptions are non-empty and contain no HTML", async ({ page }) => {
   for (const path of ["/", "/blog/", "/docs/"]) {
     await page.goto(path);
     for (const sel of ['meta[property="og:description"]', 'meta[name="description"]']) {
