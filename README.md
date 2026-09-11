@@ -112,3 +112,4 @@ rebuilds. The Soames plugin POSTs to a Netlify build hook whenever content is pu
 
 Setup and authoring guides live in the [Knowledge Base](https://soames.app/docs/); the
 plugin download is at [soames.app/download/](https://soames.app/download/).
+
