@@ -161,3 +161,40 @@ test("post prev/next navigation resolves", async ({ page, request }) => {
     expect(res.status(), `prev/next target ${href}`).toBe(200);
   }
 });
+
+// ── ORBI-88: the share card (what Facebook shows when a post URL is pasted) ──
+//
+// The Blog Image is also the post's og:image, with the same no-fallback rule as the
+// sidebar. The image must be ABSOLUTE — Facebook ignores a relative og:image — and
+// must be the localized copy on this site, never the WordPress host. Like the
+// sidebar tests this scans every post, because which post has an image is content.
+test("posts share as articles, with the Blog Image as an absolute og:image", async ({ page, request }) => {
+  let withImage = 0;
+
+  for (const path of await allPostPaths(page)) {
+    await page.goto(path);
+    const og = (p: string) => page.locator(`meta[property="${p}"]`);
+    expect(await og("og:type").getAttribute("content"), `og:type on ${path}`).toBe("article");
+
+    const canonical = await page.locator('link[rel="canonical"]').getAttribute("href");
+    expect(canonical, `canonical on ${path}`).toMatch(/^https:\/\//);
+    const card = await page.locator('meta[name="twitter:card"]').getAttribute("content");
+
+    if ((await page.locator(SIDEBAR_IMG).count()) === 0) {
+      await expect(og("og:image"), `og:image on ${path} (no Blog Image)`).toHaveCount(0);
+      expect(card, `twitter:card on ${path}`).toBe("summary");
+      continue;
+    }
+
+    withImage++;
+    const share = new URL((await og("og:image").getAttribute("content"))!);
+    expect(share.origin, `og:image origin on ${path}`).toBe(new URL(canonical!).origin);
+    expect(share.pathname, `og:image on ${path}`).toBe(await page.locator(SIDEBAR_IMG).first().getAttribute("src"));
+    expect(card, `twitter:card on ${path}`).toBe("summary_large_image");
+    // The built file is served — fetched from this server, since the absolute URL names
+    // production and a build under test may hold an image production doesn't have yet.
+    expect((await request.get(share.pathname)).status(), `${share.pathname} is served`).toBe(200);
+  }
+
+  if (withImage === 0) console.log("[e2e] ORBI-88: no post has a Blog Image; only the no-image path was checked");
+});

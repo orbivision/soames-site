@@ -14,6 +14,9 @@ export default defineConfig({
     soamesTheme({
       wordpressUrl:
         process.env.WORDPRESS_GRAPHQL_URL || 'http://soames.orbivision.net/graphql',
+      // ORBI-88: the public origin, so blog posts can share an absolute og:image. It also
+      // turns on a self-referencing canonical + og:url on every page (ORBI-82).
+      siteUrl: 'https://soames.app',
     }),
   ],
 });
